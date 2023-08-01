@@ -1,0 +1,26 @@
+/**
+ * Application global styles
+ */
+@import '~@bryntum/schedulerpro/schedulerpro.stockholm.css';
+@import '~@bryntum/demo-resources/scss/example.scss';
+
+// .b-lowest .b-sch-header-timeaxis-cell {
+//     font-size: 0.7em;
+// }
+
+// .b-grid-header-container {
+//     height: 00px !important;
+// }
+
+.b-grid-cell .b-button {
+    width: 100%;
+
+    span {
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
+
+

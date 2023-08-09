@@ -1,0 +1,7 @@
+@bryntum:registry = "https://npm.bryntum.com/test"
+//npm.bryntum.com/:_authToken=
+
+1. Copy bryntum registry and _authToken lines to .npmrc
+2. Run `npm login --registry=https://npm.bryntum.com`
+3. Use credentials from Bryntum Customer Zone to login. Replace "@" with ".." in the email for the login.
+4. Find global .npmrc and cut-paste _authToken to your project .npmrc

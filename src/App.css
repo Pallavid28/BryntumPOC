@@ -312,3 +312,14 @@
 .b-sch-resourcetimerange .reservation-minNight {
   color: lightcoral;
 }
+
+/*
+Move summary bar between the header and the grid
+https://forum.bryntum.com/viewtopic.php?p=81004#p81004
+*/
+.b-schedulerpro .b-grid-header-container {
+  order: -2;
+}
+.b-schedulerpro .b-grid-footer-container {
+  order: -1;
+}

@@ -53,6 +53,11 @@ const schedulerConfig = {
         resourceTimeRanges : {
             enableMouseEvents : true
         },
+        summary : {
+            renderer: ({ events: eventRecords }) => {
+                return eventRecords.length || ''
+            }
+        },
         eventTooltip: {
             template: data => {
                 const startDate = data.startDate;

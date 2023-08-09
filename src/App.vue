@@ -15,12 +15,14 @@ import { BryntumSchedulerPro  } from '@bryntum/schedulerpro-vue';
 import { ResourceTimeRanges, Override } from '@bryntum/schedulerpro';
 import { schedulerConfig } from '@/AppConfig2';
 
-// Use it until https://github.com/bryntum/support/issues/5839 is fixed
+// Use it until https://github.com/bryntum/support/issues/4922 is fixed
 class ResourceTimeRangesOverride {
   static get target() {
     return {
       class: ResourceTimeRanges,
       product: 'schedulerpro',
+      minVersion : '5.5.0',
+      maxVersion : '5.6.0'
     }
   }
 

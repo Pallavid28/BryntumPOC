@@ -22,9 +22,8 @@
   },
   "dependencies": {
     "@bryntum/demo-resources": "1.2.0",
-    "@bryntum/scheduler-vue": "^5.4.0",
-    "@bryntum/schedulerpro": "5.4.0",
-    "@bryntum/schedulerpro-vue": "5.4.0",
+    "@bryntum/schedulerpro": "5.5.0",
+    "@bryntum/schedulerpro-vue": "5.5.0",
     "vue": "~2.6.10"
   },
   "devDependencies": {

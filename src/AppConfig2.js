@@ -13,12 +13,12 @@ const schedulerConfig = {
         increment : 1
     },
     viewPreset : {
-        id   : 'myPreset',                 
-        name : 'My view preset',            
-        base : 'hourAndDay',  
+        id   : 'myPreset',
+        name : 'My view preset',
+        base : 'hourAndDay',
         tickWidth : 100,
-        tickHeight : 200, 
-        headers : [                         
+        tickHeight : 200,
+        headers : [
             {
                 unit       : 'day',
                 dateFormat : 'DD'
@@ -37,26 +37,40 @@ const schedulerConfig = {
             // }
         ],
     },
-    
+
     allowOverlap              : true,
     zoomOnTimeAxisDoubleClick : false,
     zoomOnMouseWheel          : false,
     createEventOnDblClick     : false,
-        getDateConstraints() {
-            return {
-                start : new Date(2023, 1, 1),
-                end   : new Date(2023, 12, 20)
-            };
+    getDateConstraints() {
+        return {
+            start : new Date(2023, 1, 1),
+            end   : new Date(2023, 12, 20)
+        };
+    },
+    features : {
+        timeRanges         : true,
+        resourceTimeRanges : {
+            enableMouseEvents : true
         },
-        features : {
-            timeRanges         : true,
-            resourceTimeRanges : {
-                enableMouseEvents : true
-            },
-           },
+        summary : {
+            renderer: ({ events: eventRecords }) => {
+                return eventRecords.length || ''
+            }
+        },
+        eventTooltip: {
+            template: data => {
+                const startDate = data.startDate;
+                const endDate = data.endDate;
+                const lengthInDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+                console.log("eventTooltip data ====> ",data)
+                return `<h4>Check-in:</h4>Start: ${startDate}<h4>Length of stay:</h4>${lengthInDays} nights`;
+            }
+        }
+    },
     columns: [
         { type : 'resourceCollapse' },
-        
+
         // {
         //     text     : 'Property Nickname',
         //     children : [
@@ -75,7 +89,7 @@ const schedulerConfig = {
         //     text     : 'Unit Class',
         //     children : [
         //         { text : 'Occupancy%', field : 'Unit_Class', cellCls:"unitClass-Cell", flex : 1, width: 150},
-        //     ], 
+        //     ],
         //     width: 180
         // },
         { text: "Property Nickname", field: "Property_Nickname", width: 150 },
@@ -94,7 +108,7 @@ const schedulerConfig = {
             }
         },
         { text: "Unit Type", field: "Unit_Type", width: 180 },
-        
+
 
         // {
         //     text           : 'Property Nickname',
@@ -109,7 +123,7 @@ const schedulerConfig = {
         // },
     ],
     resources: [
-        
+
         { id:1, Property_Nickname: 'RDP1', Unit_Nickname: 'DD201', Unit_Class: '4BR Premium'},
         // { id:2, Property_Nickname: 'RDP1', Unit_Nickname: 'DD501', Unit_Class: '2BR Standard'},
         { id:2, Property_Nickname: 'RDP1', Unit_Nickname: 'Unassigned', Unit_Class: '', Unit_Type: 'West Studio', cls: 'unassignedRow'},
@@ -147,7 +161,7 @@ const schedulerConfig = {
         { id: 10, resourceId: 11, name: 'Booking 10', startDate: '2023-8-2', duration: 2 },
     ],
     resourceTimeRanges: [
-        { id: 1, resourceId: 1, name: '$250', minNight: '3N', timeRangeColor: "white", startDate: '2023-7-20', duration: 1},
+        { id: 1, resourceId: 1, name: '$250', minNight: '3N', reservationAmount: 2, timeRangeColor: "white", startDate: '2023-7-20', duration: 1},
         { id: 2, resourceId: 2, cls: 'unassignedRow', name: '$250', timeRangeColor: "white", startDate: '2023-7-20', duration: 1,},
         { id: 3, resourceId: 3, name: '$250', timeRangeColor: "white", startDate: '2023-7-20', duration: 1},
         { id: 4, resourceId: 4, name: '$250', timeRangeColor: "white", startDate: '2023-7-20', duration: 1},
@@ -327,7 +341,7 @@ const schedulerConfig = {
         { id: 178, resourceId: 8, name: '$250', timeRangeColor: "white", startDate: '2023-8-4', duration: 1},
         { id: 179, resourceId: 9, name: '$250', timeRangeColor: "white", startDate: '2023-8-4', duration: 1,},
         { id: 180, resourceId: 10, name: '$250', timeRangeColor: "white", startDate: '2023-8-4', duration: 1},
-        
+
     ],
     // Add console.log when event is changed
 
@@ -336,7 +350,7 @@ const schedulerConfig = {
         console.log("eventRecord.eventRecord.originalData.name =======>",eventRecord.eventRecord.originalData.name)
         return `${eventRecord.eventRecord.originalData.name}`
     },
-    
+
     listeners: {
         // single click
         // resourceTimeRangeClick({ resourceTimeRangeRecord }) {
@@ -355,85 +369,8 @@ const schedulerConfig = {
         eventContextMenu() {
             console.log("right click event")
         },
-        
-    }, 
+
+    },
 };
 
-  // Add eventTooltip
-  schedulerConfig.features.eventTooltip = {
-    template: data => {
-      const startDate = data.startDate;
-      const endDate = data.endDate;
-      const lengthInDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-      console.log("eventTooltip data ====> ",data)
-      return `<h4>Check-in:</h4>Start: ${startDate}<h4>Length of stay:</h4>${lengthInDays} nights`;
-    }
-  };
-  
-//   schedulerConfig.timeAxis.on('beforereconfigure', function(event) {
-//     console.log(event)
-//     if (new Date(event.startDate).setHours(0,0,0,0) >= new Date(2023, 11, 25).setHours(0,0,0,0)) {
-//         return false;
-//     }
-
-//     return true;
-//   });// Function to check if a given date is a weekend (Saturday or Sunday)
-
-function isWeekend(date) {
-
-    const dayOfWeek = date.getDay();
-
-    return dayOfWeek === 0 || dayOfWeek === 6; // Sunday is 0, Saturday is 6
-
-  }
-
-  
-
-  // Loop through the resourceTimeRanges array and update names for elements
-
-  schedulerConfig.resourceTimeRanges.forEach((timeRange) => {
-
-    const startDate = new Date(timeRange.startDate);
-
-    const formattedStartDate = startDate.toISOString().split('T')[0];
-
-  
-
-    // Filter events that match the specific date and resource ID
-
-    const eventCount = schedulerConfig.events.filter(
-
-      (event) => event.startDate === formattedStartDate && event.resourceId === timeRange.resourceId
-
-    ).length;
-
-  
-
-    if (eventCount > 0) {
-
-      if (isWeekend(startDate)) {
-
-        timeRange.name = `$200 \n 3n - ${eventCount} events`;
-
-      } else {
-
-        timeRange.name = `$200 \n 1n - ${eventCount} events`;
-
-      }
-
-    } else {
-
-      if (isWeekend(startDate)) {
-
-        timeRange.name = `$200 \n 3n`;
-
-      } else {
-
-        timeRange.name = `$200 \n 1n`;
-
-      }
-
-    }
-
-  });
- export { schedulerConfig };
+export { schedulerConfig };
